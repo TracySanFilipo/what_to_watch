@@ -70,33 +70,5 @@ def main():
             print("That is not a recognized option.")
 
 
-list_for_ratings = []
-with open('ml-100k/u.data') as f:
-    reader = csv.DictReader(f, delimiter="\t", fieldnames=["user id", "item id", "rating", "timestamp"])
-    for row in reader:
-        list_for_ratings.append(row)
-
-print(list_for_ratings)
-
-list_of_people = []
-with open('ml-100k/u.user') as p:
-    watcher = csv.DictReader(p, delimiter="|", fieldnames=["user id", "age", "gender", "occupation", "zip code"])
-    for eye in watcher:
-        list_of_people.append(eye)
-
-print(list_of_people)
-
-list_for_movies = []
-with open('ml-100k/u.item', encoding='latin_1') as m:
-    vhs = csv.DictReader(m, delimiter="|", fieldnames=["movie id", "movie title", "release date", "video release date",
-    "IMDb URL", "unknown", "Action", "Adventure", "Animation",
-    "Children's", "Comedy", "Crime", "Documentary", "Drama", "Fantasy",
-    "Film-Noir", "Horror", "Musical", "Mystery", "Romance", "Sci-Fi",
-    "Thriller", "War", "Western"])
-    for spool in vhs:
-        list_for_movies.append(spool)
-
-print(list_for_movies)
-
 if __name__ == "__main__":
     main()
