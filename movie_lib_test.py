@@ -1,20 +1,17 @@
-from movie_lib import get_title_from_id
-from movie_lib import check_topic
-from movie_lib import average_rating
-from movie_lib import get_ratings_for_movie
-from movie_lib import ratings_written
-from movie_lib import movies_seen
+from movie_lib import Movie, average_rating, get_ratings_for_movie
+from movie_lib import ratings_written, movies_seen, ratings_by_movie
+from movie_lib import ratings_by_user, movie_table
 
 
 def test_get_title_from_id():
-    assert get_title_from_id(21) == 'Muppet Treasure Island (1996)'
+    assert movie_table['21'].get_title_from_id('21') == 'Muppet Treasure Island (1996)'
 
 
 def test_check_topic():
-    assert check_topic(472) == 'Adventure' 'Action' 'Fantasy'
+    assert movie_table['472'].check_topic('472') == 'Action, Adventure, Fantasy'
 
 
-def test_average_rating(self):
+def test_average_rating():
     count = 0
     ratings_for_750 = [5, 4, 2, 5, 4, 4, 4, 4, 4, 5, 4, 4, 1, 1, 5, 2, 3, 5, 4,
                        4, 5, 3, 4, 5, 5, 1, 4, 4, 5, 5, 3, 4, 5, 5, 3, 3, 3, 4,
@@ -23,28 +20,27 @@ def test_average_rating(self):
                        5, 5, 5, 5, 3, 3, 5, 4, 3, 4, 3, 4, 2, 3, 4, 4, 3, 3, 4,
                        3, 3, 5, 4, 5, 2, 4, 5, 2, 5, 2, 3, 4, 3, 4, 4, 4, 5, 4,
                        4, 4, 4, 4, 5, 3, 5, 3, 4, 3]
-    for r in ratings_for_750:
-        count += 1
-        total = sum(r)
-        av = total/count
-    assert average_rating(750) == av
+    total = sum(ratings_for_750)
+    count = len(ratings_for_750)
+    av = total/count
+    assert average_rating('750') == av
 
 
-def test_get_ratings_for_movie(self):
-    assert get_ratings_for_movie(750) == [5, 4, 2, 5, 4, 4, 4, 4, 4, 5, 4, 4,
-                                          1, 1, 5, 2, 3, 5, 4, 4, 5, 3, 4, 5,
-                                          5, 1, 4, 4, 5, 5, 3, 4, 5, 5, 3, 3,
-                                          3, 4, 3, 3, 5, 5, 4, 4, 3, 5, 5, 5,
-                                          5, 2, 2, 5, 5, 5, 5, 5, 5, 4, 2, 5,
-                                          5, 4, 4, 4, 4, 5, 2, 4, 2, 3, 3, 4,
-                                          2, 3, 5, 5, 5, 5, 5, 5, 3, 3, 5, 4,
-                                          3, 4, 3, 4, 2, 3, 4, 4, 3, 3, 4, 3,
-                                          3, 5, 4, 5, 2, 4, 5, 2, 5, 2, 3, 4,
-                                          3, 4, 4, 4, 5, 4, 4, 4, 4, 4, 5, 3,
-                                          5, 3, 4, 3]
+def test_get_ratings_for_movie():
+    assert get_ratings_for_movie('750') == [5, 4, 2, 5, 4, 4, 4, 4, 4, 5, 4, 4,
+                                            1, 1, 5, 2, 3, 5, 4, 4, 5, 3, 4, 5,
+                                            5, 1, 4, 4, 5, 5, 3, 4, 5, 5, 3, 3,
+                                            3, 4, 3, 3, 5, 5, 4, 4, 3, 5, 5, 5,
+                                            5, 2, 2, 5, 5, 5, 5, 5, 5, 4, 2, 5,
+                                            5, 4, 4, 4, 4, 5, 2, 4, 2, 3, 3, 4,
+                                            2, 3, 5, 5, 5, 5, 5, 5, 3, 3, 5, 4,
+                                            3, 4, 3, 4, 2, 3, 4, 4, 3, 3, 4, 3,
+                                            3, 5, 4, 5, 2, 4, 5, 2, 5, 2, 3, 4,
+                                            3, 4, 4, 4, 5, 4, 4, 4, 4, 4, 5, 3,
+                                            5, 3, 4, 3]
 
 
-def test_ratings_written(self):
+def test_ratings_written():
     ratingslisted = [4, 4, 3, 5, 4, 5, 3, 5, 5, 5, 4, 4, 4, 4, 4, 4, 5, 4, 4,
                      4, 4, 5, 4, 4, 3, 5, 4, 3, 5, 4, 3, 4, 5, 5, 4, 4, 4, 4,
                      4, 4, 5, 5, 4, 5, 5, 4, 5, 4, 5, 5, 4, 4, 3, 4, 4, 4, 4,
@@ -55,11 +51,11 @@ def test_ratings_written(self):
                      3, 4, 4, 5, 4, 3, 4, 4, 5, 4, 4, 5, 4, 4, 4, 5, 4, 4, 5,
                      4, 4, 4, 4, 5, 4, 4, 4, 5, 4, 4, 3, 5, 4, 5, 4, 5, 4, 4,
                      4, 5, 4, 5, 5, 4, 5, 5, 4, 4, 4, 4, 3]
-    rw = ratings_written(10)
+    rw = ratings_written('10')
     assert rw.sort() == ratingslisted.sort()
 
 
-def test_movies_seen(self):
+def test_movies_seen():
     watchedmovies = ['16', '486', '175', '611', '7', '100', '461', '488',
                      '285', '504', '289', '340', '505', '489', '657', '463',
                      '655', '321', '48', '203', '218', '124', '283', '4',
@@ -87,6 +83,6 @@ def test_movies_seen(self):
     movies_seen_as_numbers = []
     for n in watchedmovies:
         watched_movies_as_numbers.append(int(n))
-    for m in movies_seen(10):
+    for m in movies_seen('10'):
         movies_seen_as_numbers.append(int(m))
     assert movies_seen_as_numbers.sort() == watched_movies_as_numbers.sort()
